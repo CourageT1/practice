@@ -1,37 +1,27 @@
 #include "shell.h"
 
 /**
- * execute_args - map if command is builtin or process
- * @args: command and flags
+ * execute_argv - determine if command is built-in or separate process
+ * @argv: command and arguments
  *
- * Return: 1 on sucess, 0 otherwise
+ * Return: 1 on success (built-in command), 0 otherwise
  */
-int execute_args(char **args)
+int execute_argv(char **argv)
 {
-	char *builtin_func_list[] = {
-		"cd",
-		"env",
-		"help",
-		"exit"
-	};
-	int (*builtin_func[])(char **) = {
-		&own_cd,
-		&own_env,
-		&own_help,
-		&own_exit
-	};
-	long unsigned int i = 0;
+	char *builtin_func_list[] = {"cd", "env", "help", "exit"};
+	int (*builtin_func[])(char **) = {&own_cd, &own_env, &own_help, &own_exit};
+	unsigned int i;
 
-	if (args[0] == NULL)
-	{
+	if (argv[0] == NULL)
 		return (-1);
-	}
-	for (; i < sizeof(builtin_func_list) / sizeof(char *); i++)
+
+	for (i = 0; i < sizeof(builtin_func_list) / sizeof(char *); i++)
 	{
-		if (strcmp(args[0], builtin_func_list[i]) == 0)
-		{
-			return ((*builtin_func[i])(args));
-		}
+		if (strcmp(argv[0], builtin_func_list[i]) == 0)
+			return ((*builtin_func[i])(argv));
 	}
-   return (new_process(args));
+
+	return (new_process(argv));
 }
+
+
