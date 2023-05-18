@@ -5,20 +5,20 @@
  *
  * Return: void
  */
-void shell_interactive(void)
+void prompt(void)
 {
 	char *line;
-	char **args;
+	char **argv;
 	int status = -1;
 
 	do {
-		printf("simple_prompt$ "); /* print prompt symbol */
+		write(STDOUT_FILENO, "simple_prompt$ ", strlen("simple_prompt$ "));
 		line = read_line(); /* read line from stdin */
-		args = split_line(line); /* tokenize line */
-		status = execute_args(args);
+		argv = split_line(line); /* tokenize line */
+		status = execute_argv(argv);
 		/* avoid memory leaks */
 		free(line);
-		free(args);
+		free(argv);
 		/* exit with status */
 		if (status >= 0)
 		{
@@ -26,3 +26,4 @@ void shell_interactive(void)
 		}
 	} while (status == -1);
 }
+
