@@ -1,20 +1,18 @@
 #include "shell.h"
-#include <unistd.h>  // Include the <unistd.h> header for the write function
 
 /**
- * own_exit - causes normal process termination
- * @args: empty args
+ * own_exit - causes process termination
+ * @argv: empty args
  *
- * Return: 0 to terminate the process
+ * Return: 0 to terminate process
  */
-int own_exit(char **args)
+int own_exit(char **argv)
 {
     /* exit with status */
-    if (args[1])
+    if (argv[1])
     {
-        return atoi(args[1]);
+        return atoi(argv[1]);
     }
-    /* exit success */
     else
     {
         return 0;
@@ -23,19 +21,19 @@ int own_exit(char **args)
 
 /**
  * own_cd - changes the working dir of the current shell execution env
- * @args: target directory
+ * @argv: target directory
  *
  * Return: 1 on success, 0 otherwise.
  */
-int own_cd(char **args)
+int own_cd(char **argv)
 {
-    if (args[1] == NULL)
+    if (argv[1] == NULL)
     {
         write(STDERR_FILENO, "expected argument to \"cd\"\n", strlen("expected argument to \"cd\"\n"));
     }
     else
     {
-        if (chdir(args[1]) != 0)
+        if (chdir(argv[1]) != 0)
         {
             perror("error in own_cd.c: changing dir\n");
         }
@@ -45,14 +43,14 @@ int own_cd(char **args)
 
 /**
  * own_env - function that prints environment variables
- * @args: arguments
+ * @argv: arguments
  *
  * Return: 1 on success, 0 otherwise
  */
-int own_env(char **args)
+int own_env(char **argv)
 {
     int i = 0;
-    (void)(**args);
+    (void)(**argv);
 
     while (environ[i])
     {
@@ -65,11 +63,11 @@ int own_env(char **args)
 
 /**
  * own_help - print help
- * @args: arguments
+ * @argv: arguments
  *
  * Return: 1 on success, 0 otherwise
  */
-int own_help(char **args)
+int own_help(char **argv)
 {
     char *builtin_func_list[] = {
         "cd",
@@ -78,7 +76,7 @@ int own_help(char **args)
         "exit"
     };
     long unsigned int i = 0;
-    (void)(**args);
+    (void)(**argv);
 
     write(STDOUT_FILENO, "\n---help simple_shell---\n", strlen("\n---help simple_shell---\n"));
     write(STDOUT_FILENO, "Type a command and its arguments, then hit enter\n", strlen("Type a command and its arguments, then hit enter\n"));
