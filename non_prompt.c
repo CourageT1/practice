@@ -13,14 +13,11 @@ void non_prompt(void)
 
 	do
   {
-		line = read_stream();
-		argv = split_line(line);
-		/* tokenize line */
+		line = scan_stream();
+		argv = split_str(line);
 		status = execute_argv(argv);
-		/* avoid memory leaks */
 		free(line);
 		free(argv);
-		/* exit with status */
 		if (status >= 0)
 		{
 			exit(status);
