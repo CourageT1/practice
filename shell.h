@@ -13,17 +13,14 @@ extern char **environ;
 void prompt(void);
 void non_prompt(void);
 
-char *read_line(void);
-char **split_line(char *line);
-int execute_args(char **args);
-
-int new_process(char **args);
-
-char *read_stream(void);
-
-int own_cd(char **args);
-int own_exit(char **args);
-int own_env(char **args);
-int own_help(char **args);
+char *scan_line(void);
+char **split_str(char *line);
+int execute_argv(char **argv);
+int new_node(char **argv);
+char *scan_stream(void);
+int own_cd(char **argv);
+int own_exit(char **argv);
+int own_env(char **argv);
+int own_help(char **argv);
 
 #endif
