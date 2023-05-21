@@ -13,8 +13,8 @@ void prompt(void)
 
 	do {
 		write(STDOUT_FILENO, "simple_prompt$ ", strlen("simple_prompt$ "));
-		line = read_line(); /* read line from stdin */
-		argv = split_line(line); /* tokenize line */
+		line = scan_line(); /* read line from stdin */
+		argv = split_str(line); /* tokenize line */
 		status = execute_argv(argv);
 		/* avoid memory leaks */
 		free(line);
