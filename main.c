@@ -14,7 +14,7 @@ int main(void)
 	}
 	else
 	{
-		non-prompt();
+		non_prompt();
 	}
 	return (0);
 }
