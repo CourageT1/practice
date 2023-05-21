@@ -71,18 +71,17 @@ return (-1);
  */
 int own_help(char **argv)
 {
-char *builtin_func_list[] = {
+const char *builtin_func_list[] = {
 "cd",
 "env",
 "help",
 "exit"
 };
 unsigned int i = 0;
-(void)(**argv);
-
 write(STDOUT_FILENO, "\n---help simple_shell---\n", strlen("\n---help simple_shell---\n"));
 write(STDOUT_FILENO, "Type a command and its arguments, then hit enter\n", strlen("Type a command and its arguments, then hit enter\n"));
 write(STDOUT_FILENO, "Built-in commands:\n", strlen("Built-in commands:\n"));
+
 for (; i < sizeof(builtin_func_list) / sizeof(char *); i++)
 {
 char buffer[32];
@@ -91,4 +90,8 @@ write(STDOUT_FILENO, buffer, n);
 }
 write(STDOUT_FILENO, "Use the man command for information on other programs.\n\n", strlen("Use the man command for information on other programs.\n\n"));
 return (-1);
+}
+int main(int argc, char **argv)
+{
+return (0);
 }
