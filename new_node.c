@@ -10,28 +10,41 @@ int new_node(char **argv)
 {
 pid_t pid;
 int status;
-char *envp[] = { NULL };
+char *envp[] = {
+	"HOME=/home/user",
+	"PATH=/usr/local/bin:/usr/bin:/bin",
+	"USER=user",
+	NULL
+};
 
 pid = fork();
-if (pid == 0)
+if (pid == -1)
+{
+/* Error forking */
+perror("Error in new_node: fork");
+return (0);
+}
+else if (pid == 0)
 {
 /* Child process */
-if (execve(argv[0], args, envp) == -1)
+if (is_builtin(argv[0], builtins))
 {
-perror("Error in new_process: execve");
+execute_builtin(argv[0], argv);
+exit(EXIT_SUCCESS);
+}
+else
+{
+if (execve(argv[0], argv, envp) == -1)
+{
+perror("Error in new_node: execve");
 exit(EXIT_FAILURE);
 }
 }
-else if (pid < 0)
-{
-
-/* Error forking */
-perror("Error in new_process: fork");
 }
 else
 {
 /* Parent process */
 waitpid(pid, &status, WUNTRACED);
 }
-return (-1);
+return (1);
 }
