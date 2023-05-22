@@ -114,11 +114,7 @@ const BuiltInCommand builtins[] = {
 {"exit",'/usr/bin/exit"},
 {NULL, NULL}
 };
-/**
- * get_builtin - execute a built-in command
- * @command: the built-in command to execute
- * Return: void
- */
+ 
 /**
  * get_builtin - execute a built-in command
  * @command: the built-in command to execute
