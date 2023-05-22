@@ -98,54 +98,28 @@ return (-1);
 return (0);
 }
 
-#include <unistd.h>
-#include <string.h>
-
-typedef struct {
-    const char *command;
-    const char *path;
-} BuiltInCommand;
-
-const BuiltInCommand builtins[] = {
-    {"ls", "/bin/ls"},
-    {"cal", "/usr/bin/cal"},
-    {"cd", "/usr/bin/cd"},
-    {"env", "/usr/bin/env"},
-    {"help", "/usr/bin/help"},
-    {"exit", "/usr/bin/exit"},
-    {NULL, NULL}
-};
-
-const char* get_builtin_path(const char *command) {
-    int i = 0;
-    while (builtins[i].command != NULL) {
-        if (strcmp(command, builtins[i].command) == 0)
-            return builtins[i].path;
-        i++;
-    }
-    return NULL;
+typedef struct
+{
+const char *command;
+const char *path;
 }
-
-typedef struct {
-    const char *command;
-    const char *path;
-} BuiltInCommand;
+BuiltInCommand;
 
 const BuiltInCommand builtins[] = {
-    {"ls", "/bin/ls"},
-    {"cal", "/usr/bin/cal"},
-    {"cd", "/usr/bin/cd"},
-    {"env", "/usr/bin/env"},
-    {"help", "/usr/bin/help"},
-    {"exit", "/usr/bin/exit"},
-    {NULL, NULL}
+{"ls", "/bin/ls"},
+{"cal", "/usr/bin/cal"},
+{"cd", "/usr/bin/cd"},
+{"env", "/usr/bin/env"},
+{"help", "/usr/bin/help"},
+{"exit", "/usr/bin/exit"},
+{NULL, NULL}
 };
 /**
 * main - entry point
 *
 * Return: void
 */
-int main()
+int main(void)
 {
 const char *command = "ls";
 const char *path = get_builtin_path(command);
@@ -159,7 +133,9 @@ write(STDOUT_FILENO, command, strlen(command));
 write(STDOUT_FILENO, message2, strlen(message2));
 write(STDOUT_FILENO, path, strlen(path));
 write(STDOUT_FILENO, "\n", 1);
-} else {
+}
+else
+{
 const char *message = "Command not found: ";
 write(STDOUT_FILENO, message, strlen(message));
 write(STDOUT_FILENO, command, strlen(command));
