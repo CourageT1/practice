@@ -97,51 +97,43 @@ return (-1);
 }
 return (0);
 }
+
+typedef struct
+{
+const char *command;
+const char *path;
+}
+BuiltInCommand;
+
+const BuiltInCommand builtins[] = {
+{"ls", "/bin/ls"},
+{"cal", "/usr/bin/cal"},
+{"cd", "/usr/bin/cd"},
+{"env","/usr/bin/env},
+{"help","/usr/bin/env"},
+{"exit",'/usr/bin/exit"},
+{NULL, NULL}
+};
 /**
- * execute_builtin - execute a built-in command
+ * get_builtin - execute a built-in command
  * @command: the built-in command to execute
- * @argv: array of strings that contains the command and its arguments
+ * Return: void
  */
-void execute_builtin(char *command, char **argv)
+/**
+ * get_builtin - execute a built-in command
+ * @command: the built-in command to execute
+ * Return: void
+ */
+void get_builtin_path(char *command)
 {
-if (strcmp(command, "cd") == 0)
 {
-if (argv[1] != NULL)
-{
-if (chdir(argv[1]) != 0)
-{
-perror("chdir");
+int i = 0;
+while (builtins[i].command != NULL) {
+if (strcmp(command, builtins[i].command) == 0)
+return builtins[i].path;
+i++;
 }
-}
-else
-{
-write(STDOUT_FILENO, "cd: missing argument\n", 21);
-}
-}
-else if (strcmp(command, "env") == 0)
-{
-extern char **environ;
-char **env = environ;
-while (*env)
-{
-write(STDOUT_FILENO, *env, strlen(*env));
-write(STDOUT_FILENO, "\n", 1);
-env++;
-}
-}
-else if (strcmp(command, "help") == 0)
-{
-write(STDOUT_FILENO, "Help message\n", 13);
-}
-else if (strcmp(command, "exit") == 0)
-{
-exit(0);
-}
-else
-{
-write(STDOUT_FILENO, command, strlen(command));
-write(STDOUT_FILENO, ": command not found\n", 20);
-}
+return NULL;
 }
 /**
  * is_builtin - check if a command is a built-in command
@@ -150,13 +142,14 @@ write(STDOUT_FILENO, ": command not found\n", 20);
  *
  * Return: 1 if the command is a built-in, 0 otherwise
  */
-int is_builtin(const char *command, const char *builtins[])
+int is_builtin(const char *command)
 {
-int i;
-for (i = 0; builtins[i] != NULL; i++)
+int i = 0;
+while (builtins[i].command != NULL)
 {
-if (strcmp(command, builtins[i]) == 0)
+if (strcmp(command, builtins[i].command) == 0)
 return (1);
+i++;
 }
 return (0);
 }
