@@ -2,6 +2,8 @@
 
 /**
  * new_node - create a new process(node)
+ * is_builtin - check if a command is a built-in command
+ * execute_builtin - execute a built-in command
  * @argv: array of strings that contains the command and its flags
  *
  * Return: 1 if success, 0 otherwise
@@ -16,7 +18,15 @@ char *envp[] = {
 	"USER=user",
 	NULL
 };
-
+char *builtins[] = {
+	"cal",
+        "ls",
+	"help",
+	"exit",
+	"cd",
+	"env",
+	NULL
+	};
 pid = fork();
 if (pid == -1)
 {
