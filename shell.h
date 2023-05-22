@@ -24,7 +24,7 @@ int own_cd(char **argv);
 int own_exit(char **argv);
 int own_env(char **argv);
 int own_help(char **argv);
-int is_builtin(const char *command);
+int main();
 void get_builtin_path(char *command);
 void child_process(char **argv);
 
