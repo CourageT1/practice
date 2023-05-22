@@ -10,29 +10,33 @@ int new_node(char **argv)
 {
 	pid_t pid;
 	int status;
+	int run = 0;
 
 	pid = fork();
 	if (pid == 0)
 	{
 		/* Child process */
-		if (execvp(argv[0], argv) == -1)
+		int devNull = open("/dev/null", O_WRONLY);
+		dup2(devNull, STDERR_FILENO);
+		close(devNull);
+		
+		if (execve(argv[0], argv, NULL) == -1)
 		{
-			perror("Error in new_process: execvp");
-			exit(EXIT_FAILURE);
+			++run;
 		}
 	}
 	else if (pid < 0)
 	{
 		/* Error forking */
-		perror("Error in new_process: fork");
+		perror("Error in new_node: fork");
+		return (0);
 	}
 	else
 	{
 		/* Parent process */
-		do {
-			waitpid(pid, &status, WUNTRACED);
-		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-	}
+	       	
+			waitpid(pid, &status, 0);
+		}
 
 	return (1);
 }
