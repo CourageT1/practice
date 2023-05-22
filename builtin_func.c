@@ -143,3 +143,20 @@ write(STDOUT_FILENO, command, strlen(command));
 write(STDOUT_FILENO, ": command not found\n", 20);
 }
 }
+/**
+ * is_builtin - check if a command is a built-in command
+ * @command: the command to check
+ * @builtins: array of built-in commands
+ *
+ * Return: 1 if the command is a built-in, 0 otherwise
+ */
+int is_builtin(char *command, char **builtins)
+{
+int i;
+for (i = 0; builtins[i] != NULL; i++)
+{
+if (strcmp(command, builtins[i]) == 0)
+return (1);
+}
+return (0);
+}
