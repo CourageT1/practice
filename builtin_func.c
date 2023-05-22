@@ -150,7 +150,7 @@ write(STDOUT_FILENO, ": command not found\n", 20);
  *
  * Return: 1 if the command is a built-in, 0 otherwise
  */
-int is_builtin(char *command, char **builtins)
+int is_builtin(const char *command, const char *builtins[])
 {
 int i;
 for (i = 0; builtins[i] != NULL; i++)
