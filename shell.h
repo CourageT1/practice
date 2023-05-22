@@ -25,6 +25,8 @@ int own_exit(char **argv);
 int own_env(char **argv);
 int own_help(char **argv);
 void execute_builtin(char *command, char **argv);
+void child_process(char **argv);
+
 int is_builtin(const char *command, const char *builtins[]);
 
 #endif
