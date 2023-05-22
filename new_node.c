@@ -26,10 +26,8 @@ return (0);
 } else if (pid == 0) {
 if (is_builtin(argv[0], builtins)) {
 execute_builtin(argv[0], argv);
-exit(EXIT_SUCCESS);
 } else {
 child_process(argv);
-exit(EXIT_FAILURE);
 }
 } else {
 waitpid(pid, &status, WUNTRACED);
@@ -44,7 +42,7 @@ return (1);
 */
 void child_process(char **argv)
 {
-char *path = "/path/to/executable";
-execve(path, argv, NULL);
+execve(argv[0], argv);
 perror("execve");
+exit(EXIT_FAILURE);
 }
