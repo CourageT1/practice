@@ -8,35 +8,30 @@
  */
 int new_node(char **argv)
 {
-	pid_t pid;
-	int status;
-	int run = 0;
+pid_t pid;
+int status;
+char *envp[] = { NULL };
 
-	pid = fork();
-	if (pid == 0)
-	{
-		/* Child process */
-		int devNull = open("/dev/null", O_WRONLY);
-		dup2(devNull, STDERR_FILENO);
-		close(devNull);
-		
-		if (execve(argv[0], argv, NULL) == -1)
-		{
-			++run;
-		}
-	}
-	else if (pid < 0)
-	{
-		/* Error forking */
-		perror("Error in new_node: fork");
-		return (0);
-	}
-	else
-	{
-		/* Parent process */
-	       	
-			waitpid(pid, &status, 0);
-		}
+pid = fork();
+if (pid == 0)
+{
+/* Child process */
+if (execve(argv[0], args, envp) == -1)
+{
+perror("Error in new_process: execve");
+exit(EXIT_FAILURE);
+}
+}
+else if (pid < 0)
+{
 
-	return (1);
+/* Error forking */
+perror("Error in new_process: fork");
+}
+else
+{
+/* Parent process */
+waitpid(pid, &status, WUNTRACED);
+}
+return (-1);
 }
