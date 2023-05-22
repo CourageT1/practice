@@ -98,54 +98,91 @@ return (-1);
 return (0);
 }
 
-typedef struct
-{
-const char *command;
-const char *path;
-}
-BuiltInCommand;
+#include <unistd.h>
+#include <string.h>
+
+typedef struct {
+    const char *command;
+    const char *path;
+} BuiltInCommand;
 
 const BuiltInCommand builtins[] = {
-{"ls", "/bin/ls"},
-{"cal", "/usr/bin/cal"},
-{"cd", "/usr/bin/cd"},
-{"env","/usr/bin/env},
-{"help","/usr/bin/env"},
-{"exit",'/usr/bin/exit"},
-{NULL, NULL}
+    {"ls", "/bin/ls"},
+    {"cal", "/usr/bin/cal"},
+    {"cd", "/usr/bin/cd"},
+    {"env", "/usr/bin/env"},
+    {"help", "/usr/bin/help"},
+    {"exit", "/usr/bin/exit"},
+    {NULL, NULL}
 };
- 
+
+const char* get_builtin_path(const char *command) {
+    int i = 0;
+    while (builtins[i].command != NULL) {
+        if (strcmp(command, builtins[i].command) == 0)
+            return builtins[i].path;
+        i++;
+    }
+    return NULL;
+}
+
+typedef struct {
+    const char *command;
+    const char *path;
+} BuiltInCommand;
+
+const BuiltInCommand builtins[] = {
+    {"ls", "/bin/ls"},
+    {"cal", "/usr/bin/cal"},
+    {"cd", "/usr/bin/cd"},
+    {"env", "/usr/bin/env"},
+    {"help", "/usr/bin/help"},
+    {"exit", "/usr/bin/exit"},
+    {NULL, NULL}
+};
 /**
+* main - entry point
+*
+* Return: void
+*/
+int main()
+{
+const char *command = "ls";
+const char *path = get_builtin_path(command);
+
+if (path != NULL)
+{
+const char *message1 = "Command: ";
+const char *message2 = "\nPath: ";
+write(STDOUT_FILENO, message1, strlen(message1));
+write(STDOUT_FILENO, command, strlen(command));
+write(STDOUT_FILENO, message2, strlen(message2));
+write(STDOUT_FILENO, path, strlen(path));
+write(STDOUT_FILENO, "\n", 1);
+} else {
+const char *message = "Command not found: ";
+write(STDOUT_FILENO, message, strlen(message));
+write(STDOUT_FILENO, command, strlen(command));
+write(STDOUT_FILENO, "\n", 1);
+}
+return (0);
+}
+return (0);
+}
+
+ /**
  * get_builtin - execute a built-in command
  * @command: the built-in command to execute
  * Return: void
  */
 void get_builtin_path(char *command)
 {
-{
-int i = 0;
-while (builtins[i].command != NULL) {
-if (strcmp(command, builtins[i].command) == 0)
-return builtins[i].path;
-i++;
-}
-return NULL;
-}
-/**
- * is_builtin - check if a command is a built-in command
- * @command: the command to check
- * @builtins: array of built-in commands
- *
- * Return: 1 if the command is a built-in, 0 otherwise
- */
-int is_builtin(const char *command)
-{
 int i = 0;
 while (builtins[i].command != NULL)
 {
 if (strcmp(command, builtins[i].command) == 0)
-return (1);
+return builtins[i].path;
 i++;
 }
-return (0);
+return (NULL);
 }
