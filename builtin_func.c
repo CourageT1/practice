@@ -97,4 +97,49 @@ return (-1);
 }
 return (0);
 }
-
+/**
+ * execute_builtin - execute a built-in command
+ * @command: the built-in command to execute
+ * @argv: array of strings that contains the command and its arguments
+ */
+void execute_builtin(char *command, char **argv)
+{
+if (strcmp(command, "cd") == 0)
+{
+if (argv[1] != NULL)
+{
+if (chdir(argv[1]) != 0)
+{
+perror("chdir");
+}
+}
+else
+{
+write(STDOUT_FILENO, "cd: missing argument\n", 21);
+}
+}
+else if (strcmp(command, "env") == 0)
+{
+extern char **environ;
+char **env = environ;
+while (*env)
+{
+write(STDOUT_FILENO, *env, strlen(*env));
+write(STDOUT_FILENO, "\n", 1);
+env++;
+}
+}
+else if (strcmp(command, "help") == 0)
+{
+write(STDOUT_FILENO, "Help message\n", 13);
+}
+else if (strcmp(command, "exit") == 0)
+{
+exit(0);
+}
+else
+{
+write(STDOUT_FILENO, command, strlen(command));
+write(STDOUT_FILENO, ": command not found\n", 20);
+}
+}
