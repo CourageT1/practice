@@ -16,15 +16,16 @@ char *envp[] = {
 	"USER=user",
 	NULL
 };
-char *builtins[] = {
+const char *builtins[] = {
 	"cal",
-        "ls",
+	"ls",
 	"help",
 	"exit",
 	"cd",
 	"env",
 	NULL
 	};
+
 pid = fork();
 if (pid == -1)
 {
