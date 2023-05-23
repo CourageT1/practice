@@ -97,6 +97,7 @@ return (-1);
 }
 return (0);
 }
+<<<<<<< HEAD
 
 typedef struct
 {
@@ -162,3 +163,5 @@ i++;
 }
 return (NULL);
 }
+=======
+>>>>>>> a63737a0866ccd85a5b99c7193eb3315f22cd089
